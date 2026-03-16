@@ -1,0 +1,57 @@
+<svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1350" rx="40" fill="#F5F7FF"/>
+  <rect width="1080" height="1350" rx="40" fill="url(#bg)"/>
+  <g opacity="0.85" filter="url(#blur)">
+    <circle cx="166" cy="251" r="116" fill="#FFD9ED"/>
+    <circle cx="903" cy="274" r="138" fill="#FFE7F3"/>
+    <circle cx="157" cy="1027" r="130" fill="#FFD9EE"/>
+    <circle cx="840" cy="1107" r="182" fill="#F3D9FF"/>
+    <circle cx="493" cy="120" r="176" fill="#E8D7FF"/>
+    <circle cx="177" cy="676" r="120" fill="#DDF1FF"/>
+  </g>
+  <g opacity="0.72">
+    <path d="M131 172C155 126 199 121 229 153C258 185 249 240 198 259C164 240 126 218 131 172Z" fill="#F9D5E4"/>
+    <path d="M817 166C845 132 892 140 918 176C944 212 939 258 896 275C860 252 818 225 817 166Z" fill="#FAE5EF"/>
+    <path d="M160 956C183 921 223 920 250 949C278 979 276 1022 241 1046C205 1028 164 1006 160 956Z" fill="#F9D3E6"/>
+    <path d="M800 1052C833 1005 891 1018 919 1064C947 1109 940 1176 874 1189C839 1152 792 1118 800 1052Z" fill="#FFE4F4"/>
+    <path d="M346 122C371 90 413 89 437 120C462 151 455 195 408 213C379 194 338 172 346 122Z" fill="#FFDCEC"/>
+    <path d="M638 111C669 81 714 87 736 118C757 149 750 193 707 212C674 194 634 165 638 111Z" fill="#FFF0F7"/>
+  </g>
+  <rect x="84" y="68" width="912" height="1214" rx="34" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
+  <text x="540" y="425" text-anchor="middle" fill="#3D343A" font-family="'Times New Roman', Times, serif" font-size="102" font-weight="700">
+    <tspan x="540" dy="0">Software is</tspan>
+    <tspan x="540" dy="116">a great combination</tspan>
+    <tspan x="540" dy="116">of artistry</tspan>
+    <tspan x="540" dy="116">and engineering.</tspan>
+  </text>
+  <text x="540" y="1002" text-anchor="middle" fill="#4A4147" font-family="'Times New Roman', Times, serif" font-size="96" font-weight="700">Bill Gates</text>
+  <text x="540" y="1188" text-anchor="middle" fill="#7C7076" font-family="Arial, sans-serif" font-size="44" font-weight="700">best quick quotes</text>
+  <g opacity="0.28">
+    <path d="M764 756C786 743 807 758 808 782C809 807 789 821 766 817C750 797 749 772 764 756Z" fill="#7C7076"/>
+    <path d="M793 744L806 757" stroke="#7C7076" stroke-width="8" stroke-linecap="round"/>
+    <path d="M777 824L790 838" stroke="#7C7076" stroke-width="8" stroke-linecap="round"/>
+    <path d="M804 822L817 809" stroke="#7C7076" stroke-width="8" stroke-linecap="round"/>
+    <path d="M779 751L792 738" stroke="#7C7076" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.16" stroke="#7C7076" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M822 884H962C989 884 1010 905 1010 932V1020C1010 1047 989 1068 962 1068H919L879 1102V1068H822C795 1068 774 1047 774 1020V932C774 905 795 884 822 884Z"/>
+    <path d="M875 941H946"/>
+    <path d="M875 989H920"/>
+    <path d="M854 1173C854 1138 881 1110 916 1110H950"/>
+    <path d="M961 1164C961 1141 980 1123 1003 1123"/>
+    <path d="M832 1236C832 1213 851 1194 874 1194C897 1194 916 1213 916 1236C916 1259 897 1278 874 1278C851 1278 832 1259 832 1236Z"/>
+    <path d="M980 1268C980 1234 1007 1207 1041 1207"/>
+  </g>
+  <defs>
+    <linearGradient id="bg" x1="130" y1="16" x2="931" y2="1314" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D7EBFF"/>
+      <stop offset="0.46" stop-color="#EEF5FF"/>
+      <stop offset="1" stop-color="#F5E3FF"/>
+    </linearGradient>
+    <filter id="blur" x="-40" y="-86" width="1367" height="1524" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feGaussianBlur stdDeviation="48" result="effect1_foregroundBlur_0_1"/>
+    </filter>
+  </defs>
+</svg>

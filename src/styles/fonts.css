@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+:root {
+  font-family: 'Times New Roman', Times, serif;
+  letter-spacing: 0;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Times New Roman', Times, serif;
+  letter-spacing: -0.02em;
+  font-variation-settings: normal;
+}
+
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  letter-spacing: -0.01em;
+}
