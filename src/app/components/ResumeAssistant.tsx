@@ -2,6 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Bot, CornerDownLeft, Sparkles } from 'lucide-react';
 import { buildLocalResumeAnswer, initialMessage, quickPrompts } from '../../shared/resumeAssistantContext';
 
+const resumeAssistantEndpoint =
+  import.meta.env.VITE_RESUME_ASSISTANT_URL?.trim() || '/api/resume-assistant';
+
 type ChatRole = 'assistant' | 'user';
 
 interface ChatMessage {
@@ -21,7 +24,7 @@ async function consumeAssistantStream(
   onEvent: (event: ResumeStreamEvent) => void,
   signal: AbortSignal
 ) {
-  const response = await fetch('/api/resume-assistant', {
+  const response = await fetch(resumeAssistantEndpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -195,35 +198,35 @@ export function ResumeAssistant() {
   }, []);
 
   return (
-    <div className="relative h-full overflow-hidden rounded-[34px] border border-white/10 bg-[linear-gradient(180deg,rgba(15,18,28,0.96),rgba(9,11,18,0.98))] p-5 text-[#efe7d7] shadow-[0_30px_80px_rgba(0,0,0,0.36)]">
+    <div className="relative h-full overflow-hidden rounded-[26px] md:rounded-[34px] border border-white/10 bg-[linear-gradient(180deg,rgba(15,18,28,0.96),rgba(9,11,18,0.98))] p-4 md:p-5 text-[#efe7d7] shadow-[0_30px_80px_rgba(0,0,0,0.36)]">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.04),transparent_42%)]" />
       <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
       <div className="relative flex h-full flex-col">
         <div className="mb-5">
           <p className="mb-3 text-[11px] uppercase tracking-[0.28em] text-[#b3a89a]">Resume Assistant</p>
-          <h3 className="mb-3 text-4xl leading-none text-[#f3ecdf]">Chat with my resume</h3>
-          <p className="max-w-md text-lg leading-8 text-[#b7afa4]">
+          <h3 className="mb-3 text-2xl md:text-4xl leading-none text-[#f3ecdf]">Chat with my resume</h3>
+          <p className="max-w-md text-sm md:text-lg leading-6 md:leading-8 text-[#b7afa4]">
             A focused AI-style assistant that answers from portfolio and resume context directly inside the page.
           </p>
         </div>
 
-        <div className="mb-4 rounded-[26px] border border-white/10 bg-white/[0.04] p-5">
+        <div className="mb-4 rounded-[22px] md:rounded-[26px] border border-white/10 bg-white/[0.04] p-4 md:p-5">
           <div className="mb-2 flex items-center gap-3 text-[#d7cebf]">
             <Bot className="h-4 w-4 text-[#ff934d]" />
-            <span className="text-xl leading-none">Resume AI</span>
+            <span className="text-lg md:text-xl leading-none">Resume AI</span>
           </div>
-          <p className="text-lg leading-8 text-[#b7afa4]">{statusLabel}</p>
+          <p className="text-sm md:text-lg leading-6 md:leading-8 text-[#b7afa4]">{statusLabel}</p>
         </div>
 
         <div
           ref={viewportRef}
-          className="mb-4 flex-1 space-y-3 overflow-y-auto rounded-[26px] border border-white/10 bg-[#0a0d14]/90 p-4"
+          className="mb-4 flex-1 space-y-3 overflow-y-auto rounded-[22px] md:rounded-[26px] border border-white/10 bg-[#0a0d14]/90 p-3 md:p-4"
         >
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`max-w-[92%] rounded-[22px] px-4 py-3 text-[15px] leading-7 ${
+              className={`max-w-[96%] md:max-w-[92%] rounded-[20px] md:rounded-[22px] px-3 md:px-4 py-3 text-sm md:text-[15px] leading-6 md:leading-7 ${
                 message.role === 'assistant'
                   ? 'border border-white/10 bg-white/[0.05] text-[#efe7d7]'
                   : 'ml-auto border border-[#ff934d]/20 bg-[#ff934d] text-[#241405]'
@@ -240,7 +243,7 @@ export function ResumeAssistant() {
               key={prompt}
               type="button"
               onClick={() => setDraft(prompt)}
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs uppercase tracking-[0.16em] text-[#c9bfaf] transition hover:border-white/20 hover:bg-white/[0.06]"
+              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-[10px] md:text-xs uppercase tracking-[0.12em] md:tracking-[0.16em] text-[#c9bfaf] transition hover:border-white/20 hover:bg-white/[0.06]"
             >
               <span className="inline-flex items-center gap-2">
                 <Sparkles className="h-3.5 w-3.5 text-[#ff934d]" />
@@ -264,14 +267,14 @@ export function ResumeAssistant() {
               onChange={(event) => setDraft(event.target.value)}
               rows={4}
               placeholder="Ask about experience, projects, AI/ML learning, or tech stack."
-              className="min-h-[150px] w-full resize-none rounded-[26px] border border-white/10 bg-[#090c13] px-5 py-4 text-2xl leading-10 text-[#efe7d7] placeholder:text-[#756d62] focus:border-[#ff934d]/50 focus:outline-none"
+              className="min-h-[120px] md:min-h-[150px] w-full resize-none rounded-[22px] md:rounded-[26px] border border-white/10 bg-[#090c13] px-4 md:px-5 py-4 text-base md:text-2xl leading-6 md:leading-10 text-[#efe7d7] placeholder:text-[#756d62] focus:border-[#ff934d]/50 focus:outline-none"
             />
           </label>
 
           <button
             type="submit"
             disabled={isStreaming}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#ff934d] px-6 py-4 text-2xl text-[#1d1208] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#ff934d] px-6 py-3 md:py-4 text-lg md:text-2xl text-[#1d1208] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
           >
             <CornerDownLeft className="h-5 w-5" />
             {isStreaming ? 'Answering...' : 'Send'}

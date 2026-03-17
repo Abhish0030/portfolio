@@ -141,6 +141,13 @@
 
   html {
     font-size: var(--font-size);
+    overflow-x: hidden;
+  }
+
+  body,
+  #root {
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   h1 {
@@ -273,9 +280,11 @@
       box-shadow 240ms ease;
   }
 
-  .hover-shift:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.3);
+  @media (hover: hover) and (pointer: fine) {
+    .hover-shift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.3);
+    }
   }
 
   .animate-float-soft {
@@ -314,6 +323,43 @@
     background-clip: text;
     color: transparent;
     animation: aurora-shift 8s linear infinite;
+  }
+
+  @media (max-width: 767px) {
+    .glass-card {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 10px 32px rgba(0, 0, 0, 0.18);
+    }
+
+    .hero-badge::after,
+    .portrait-loader::before,
+    .aurora-text,
+    .animate-float-soft,
+    .animate-pulse-ring {
+      animation: none !important;
+    }
+
+    .panel-glow::before {
+      opacity: 0.4;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .hero-badge::after,
+    .portrait-loader::before,
+    .aurora-text,
+    .animate-float-soft,
+    .animate-pulse-ring,
+    .animate-marquee {
+      animation: none !important;
+    }
   }
 
   @keyframes aurora-shift {
@@ -377,8 +423,10 @@
     animation: marquee 30s linear infinite;
   }
 
-  .animate-marquee:hover {
-    animation-play-state: paused;
+  @media (hover: hover) and (pointer: fine) {
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
   }
 
   /* Smooth scroll */
@@ -421,5 +469,22 @@
   select,
   label {
     cursor: default !important;
+  }
+
+  @media (max-width: 767px) {
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    .section-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      padding: 0.5rem 0.8rem;
+    }
+
+    .display-heading {
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
   }
 }

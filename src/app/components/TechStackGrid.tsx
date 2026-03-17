@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useIsMobile } from './ui/use-mobile';
 
 interface Technology {
   name: string;
@@ -14,6 +15,7 @@ interface TechStackGridProps {
 export function TechStackGrid({ technologies }: TechStackGridProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   let cardIndex = 0;
 
   return (
@@ -33,7 +35,7 @@ export function TechStackGrid({ technologies }: TechStackGridProps) {
         {technologies.map((row, rowIndex) => (
           <div
             key={`row-${rowIndex}`}
-            className="flex w-full justify-center gap-3 md:gap-5"
+            className="flex w-full flex-wrap justify-center gap-3 md:gap-5"
           >
             {row.map((tech) => {
               const index = cardIndex++;
@@ -43,6 +45,7 @@ export function TechStackGrid({ technologies }: TechStackGridProps) {
                   key={tech.name}
                   tech={tech}
                   index={index}
+                  isMobile={isMobile}
                   isHovered={hoveredIndex === index}
                   onHover={() => setHoveredIndex(index)}
                   onLeave={() => setHoveredIndex(null)}
@@ -59,31 +62,32 @@ export function TechStackGrid({ technologies }: TechStackGridProps) {
 interface TechCardProps {
   tech: Technology;
   index: number;
+  isMobile: boolean;
   isHovered: boolean;
   onHover: () => void;
   onLeave: () => void;
 }
 
-function TechCard({ tech, index, isHovered, onHover, onLeave }: TechCardProps) {
+function TechCard({ tech, index, isMobile, isHovered, onHover, onLeave }: TechCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      initial={isMobile ? false : { opacity: 0, scale: 0.8, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{
-        duration: 0.5,
+        duration: isMobile ? 0 : 0.5,
         delay: index * 0.02,
         ease: [0.16, 1, 0.3, 1],
       }}
-      whileHover={{ scale: 1.05, y: -4 }}
-      onMouseEnter={onHover}
-      onMouseLeave={onLeave}
-      className="relative group w-[92px] shrink-0 md:w-[104px]"
+      whileHover={isMobile ? undefined : { scale: 1.05, y: -4 }}
+      onMouseEnter={isMobile ? undefined : onHover}
+      onMouseLeave={isMobile ? undefined : onLeave}
+      className="relative group w-[80px] shrink-0 md:w-[104px]"
     >
       {/* Glow effect on hover */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isHovered ? 0.6 : 0 }}
-        transition={{ duration: 0.3 }}
+        initial={isMobile ? false : { opacity: 0 }}
+        animate={{ opacity: isMobile ? 0 : isHovered ? 0.6 : 0 }}
+        transition={{ duration: isMobile ? 0 : 0.3 }}
         className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-violet-300/30 via-white/20 to-purple-300/30 blur-2xl"
       />
 
@@ -103,21 +107,21 @@ function TechCard({ tech, index, isHovered, onHover, onLeave }: TechCardProps) {
         {/* Content */}
         <div className="relative flex h-full flex-col items-center justify-center gap-2 p-2 md:p-3">
           {/* Icon */}
-          <div className="text-3xl md:text-4xl grayscale group-hover:grayscale-0 transition-all duration-300">
+          <div className="text-2xl md:text-4xl grayscale group-hover:grayscale-0 transition-all duration-300">
             {tech.icon}
           </div>
           
           {/* Name */}
-          <div className="px-1 text-center text-[10px] md:text-xs font-medium text-white/75 group-hover:text-white transition-colors duration-300">
+          <div className="px-1 text-center text-[9px] md:text-xs font-medium text-white/75 group-hover:text-white transition-colors duration-300">
             {tech.name}
           </div>
         </div>
 
         {/* Border glow on hover */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
+          initial={isMobile ? false : { opacity: 0 }}
+          animate={{ opacity: isMobile ? 0 : isHovered ? 1 : 0 }}
+          transition={{ duration: isMobile ? 0 : 0.3 }}
           className="absolute inset-0 rounded-2xl"
           style={{
             background: 'linear-gradient(135deg, rgba(255,255,255,0.35), rgba(196,181,253,0.35), rgba(216,180,254,0.3))',

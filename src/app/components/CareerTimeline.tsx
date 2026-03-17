@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
+import { useIsMobile } from './ui/use-mobile';
 
 interface TimelineItem {
   year: string;
@@ -16,8 +17,14 @@ interface CareerTimelineProps {
 export function CareerTimeline({ items }: CareerTimelineProps) {
   const [visibleItems, setVisibleItems] = useState<number[]>([]);
   const refs = useRef<(HTMLDivElement | null)[]>([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) {
+      setVisibleItems(items.map((_, index) => index));
+      return;
+    }
+
     const observers = items.map((_, index) => {
       const observer = new IntersectionObserver(
         ([entry]) => {
@@ -38,12 +45,12 @@ export function CareerTimeline({ items }: CareerTimelineProps) {
     return () => {
       observers.forEach((observer) => observer.disconnect());
     };
-  }, [items]);
+  }, [items, isMobile]);
 
   return (
     <div className="relative">
       {/* Vertical gradient line */}
-      <div className="absolute left-[140px] md:left-[200px] top-0 bottom-0 w-[2px]">
+      <div className="absolute left-3 md:left-[200px] top-0 bottom-0 w-[2px]">
         <div
           className="w-full h-full bg-gradient-to-b from-violet-600 via-purple-500 to-fuchsia-600"
           style={{
@@ -58,44 +65,44 @@ export function CareerTimeline({ items }: CareerTimelineProps) {
           <motion.div
             key={item.year}
             ref={(el) => (refs.current[index] = el)}
-            initial={{ opacity: 0, x: -50 }}
+            initial={isMobile ? false : { opacity: 0, x: -50 }}
             animate={
               visibleItems.includes(index)
                 ? { opacity: 1, x: 0 }
                 : { opacity: 0, x: -50 }
             }
             transition={{
-              duration: 0.8,
+              duration: isMobile ? 0 : 0.8,
               delay: index * 0.2,
               ease: [0.16, 1, 0.3, 1],
             }}
-            className="relative flex items-start gap-8 md:gap-16"
+            className="relative flex flex-col gap-4 pl-10 md:flex-row md:items-start md:gap-16 md:pl-0"
           >
             {/* Year */}
-            <div className="w-[100px] md:w-[160px] text-right">
+            <div className="w-full md:w-[160px] text-left md:text-right">
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
+                initial={isMobile ? false : { scale: 0.8, opacity: 0 }}
                 animate={
                   visibleItems.includes(index)
                     ? { scale: 1, opacity: 1 }
                     : { scale: 0.8, opacity: 0 }
                 }
-                transition={{ duration: 0.6, delay: index * 0.2 + 0.2 }}
-                className="text-4xl md:text-6xl text-white/90"
+                transition={{ duration: isMobile ? 0 : 0.6, delay: index * 0.2 + 0.2 }}
+                className="text-3xl md:text-6xl text-white/90"
               >
                 {item.year}
               </motion.div>
             </div>
 
             {/* Timeline dot */}
-            <div className="relative flex items-center justify-center -ml-2 md:-ml-3">
+            <div className="absolute left-3 top-3 flex -translate-x-1/2 items-center justify-center md:relative md:left-auto md:top-auto md:translate-x-0 md:-ml-3">
               <motion.div
-                initial={{ scale: 0 }}
+                initial={isMobile ? false : { scale: 0 }}
                 animate={
                   visibleItems.includes(index) ? { scale: 1 } : { scale: 0 }
                 }
                 transition={{
-                  duration: 0.5,
+                  duration: isMobile ? 0 : 0.5,
                   delay: index * 0.2 + 0.3,
                   type: 'spring',
                 }}
@@ -123,23 +130,23 @@ export function CareerTimeline({ items }: CareerTimelineProps) {
             </div>
 
             {/* Content */}
-            <div className="flex-1 pb-8">
+            <div className="flex-1 pb-4 md:pb-8">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? false : { opacity: 0, y: 20 }}
                 animate={
                   visibleItems.includes(index)
                     ? { opacity: 1, y: 0 }
                     : { opacity: 0, y: 20 }
                 }
-                transition={{ duration: 0.6, delay: index * 0.2 + 0.4 }}
-                className="panel-glow relative overflow-hidden rounded-[28px] border border-white/8 bg-white/[0.02] px-6 py-6 shadow-[0_18px_60px_rgba(0,0,0,0.22)]"
+                transition={{ duration: isMobile ? 0 : 0.6, delay: index * 0.2 + 0.4 }}
+                className="panel-glow relative overflow-hidden rounded-[24px] md:rounded-[28px] border border-white/8 bg-white/[0.02] px-5 md:px-6 py-5 md:py-6 shadow-[0_18px_60px_rgba(0,0,0,0.22)]"
               >
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                 <div
                   className="absolute right-0 top-0 h-28 w-28 rounded-full blur-3xl"
                   style={{ background: item.color, opacity: 0.14 }}
                 />
-                <h3 className="text-2xl md:text-3xl lg:text-4xl mb-2 text-white">
+                <h3 className="text-xl md:text-3xl lg:text-4xl mb-2 text-white">
                   {item.role}
                 </h3>
                 <p className="text-base md:text-lg text-violet-400 mb-4">

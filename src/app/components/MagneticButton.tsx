@@ -1,5 +1,6 @@
 import { useRef, useState, MouseEvent, ButtonHTMLAttributes } from 'react';
 import { motion } from 'motion/react';
+import { useIsMobile } from './ui/use-mobile';
 
 interface MagneticButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -9,8 +10,10 @@ interface MagneticButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export function MagneticButton({ children, className = '', onClick, type = 'button', ...props }: MagneticButtonProps) {
   const ref = useRef<HTMLButtonElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const isMobile = useIsMobile();
 
   const handleMouseMove = (e: MouseEvent<HTMLButtonElement>) => {
+    if (isMobile) return;
     if (!ref.current) return;
 
     const rect = ref.current.getBoundingClientRect();
@@ -45,7 +48,7 @@ export function MagneticButton({ children, className = '', onClick, type = 'butt
       onClick={onClick}
       type={type}
       whileTap={{ scale: 0.98 }}
-      animate={{ x: position.x, y: position.y }}
+      animate={isMobile ? { x: 0, y: 0 } : { x: position.x, y: position.y }}
       transition={{
         type: 'spring',
         stiffness: 150,

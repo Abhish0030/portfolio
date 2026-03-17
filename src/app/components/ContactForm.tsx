@@ -117,7 +117,7 @@ export function ContactForm() {
             }
             required
             disabled={formState === "sending"}
-            className={`w-full bg-white/5 border ${borderColor} rounded-xl px-12 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 transition-all duration-300`}
+            className={`w-full bg-white/5 border ${borderColor} rounded-xl px-12 py-3 md:py-4 text-base text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 transition-all duration-300`}
           />
         </div>
 
@@ -134,7 +134,7 @@ export function ContactForm() {
             }
             required
             disabled={formState === "sending"}
-            className={`w-full bg-white/5 border ${borderColor} rounded-xl px-12 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 transition-all duration-300`}
+            className={`w-full bg-white/5 border ${borderColor} rounded-xl px-12 py-3 md:py-4 text-base text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 transition-all duration-300`}
           />
         </div>
 
@@ -151,14 +151,14 @@ export function ContactForm() {
             required
             rows={5}
             disabled={formState === "sending"}
-            className={`w-full bg-white/5 border ${borderColor} rounded-xl px-12 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 transition-all duration-300 resize-none`}
+            className={`w-full bg-white/5 border ${borderColor} rounded-xl px-12 py-4 text-base text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 transition-all duration-300 resize-none`}
           />
         </div>
       </div>
 
       <MagneticButton
         type="submit"
-        className={`w-full py-4 px-8 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 text-white transition-all duration-300 ${
+        className={`w-full py-3 md:py-4 px-8 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 text-base md:text-lg text-white transition-all duration-300 ${
           formState === "sending"
             ? "opacity-70 cursor-not-allowed"
             : formState === "success"

@@ -10,6 +10,7 @@ import { ImageWithFallback } from './components/figma/ImageWithFallback';
 import { motion } from 'motion/react';
 import { Code2, Github, Linkedin, Mail, ExternalLink, Database, Globe, Phone, FileText } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useIsMobile } from './components/ui/use-mobile';
 
 // Mock data (PHP-ready structure - can be replaced with $variables)
 const personalInfo = {
@@ -155,14 +156,17 @@ const careerPath = [
 
 export default function App() {
   const [activePortrait, setActivePortrait] = useState(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) return;
+
     const interval = window.setInterval(() => {
       setActivePortrait((current) => (current + 1) % portraitFrames.length);
     }, 3200);
 
     return () => window.clearInterval(interval);
-  }, []);
+  }, [isMobile]);
 
   const contactLinks = [
     {
@@ -196,47 +200,47 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden supports-[overflow:clip]:overflow-x-clip">
       <ParallaxBackground />
       <Navbar />
 
       {/* Hero Section */}
-      <section id="about" className="min-h-screen flex items-center justify-center px-4 md:px-6 pt-32 pb-20">
+      <section id="about" className="min-h-[100svh] md:min-h-screen flex items-center justify-center px-4 md:px-6 pt-28 md:pt-32 pb-16 md:pb-20 scroll-mt-24">
         <div className="max-w-7xl w-full">
           <div className="grid grid-cols-12 gap-4 md:gap-6">
             {/* Main Hero Card */}
-            <BentoCard span={8} delay={0.2} className="min-h-[500px] md:min-h-[600px] flex flex-col justify-between">
+            <BentoCard span={8} delay={0.2} className="min-h-[460px] md:min-h-[600px] flex flex-col justify-between">
               <div>
                 <div className="hero-badge inline-flex items-center gap-3 rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-2 mb-6">
                   <span className="relative flex h-2.5 w-2.5">
                     <span className="animate-pulse-ring absolute inline-flex h-full w-full rounded-full bg-emerald-400/70" />
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-300" />
                   </span>
-                  <span className="text-xs md:text-sm tracking-[0.16em] uppercase text-violet-200">Open to internships and collaborations</span>
+                  <span className="text-[11px] md:text-sm tracking-[0.12em] md:tracking-[0.16em] uppercase text-violet-200">Open to internships and collaborations</span>
                 </div>
 
                 <div className="mb-8 flex flex-wrap gap-3">
                   {heroHighlights.map((item, index) => (
                     <span
                       key={item}
-                      className="animate-float-soft rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs uppercase tracking-[0.18em] text-white/60"
-                      style={{ animationDelay: `${index * 0.7}s` }}
+                      className={`${isMobile ? '' : 'animate-float-soft'} rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs uppercase tracking-[0.14em] md:tracking-[0.18em] text-white/60`}
+                      style={isMobile ? undefined : { animationDelay: `${index * 0.7}s` }}
                     >
                       {item}
                     </span>
                   ))}
                 </div>
 
-                <h1 className="display-heading aurora-text text-5xl md:text-7xl lg:text-[6.5rem] mb-5 max-w-4xl">
+                <h1 className="display-heading aurora-text text-4xl sm:text-5xl md:text-7xl lg:text-[6.5rem] mb-5 max-w-4xl">
                   Building intelligent digital experiences with code and curiosity.
                 </h1>
 
-                <p className="text-lg md:text-2xl text-white/75 mb-2">
+                <p className="text-base sm:text-lg md:text-2xl text-white/75 mb-2">
                   Hello, I&apos;m {personalInfo.name} - a 2nd Year B.Tech CSE student passionate about building and learning.
                 </p>
-                <p className="text-base md:text-lg uppercase tracking-[0.22em] text-white/35 mb-8">{personalInfo.university}</p>
+                <p className="text-sm md:text-lg uppercase tracking-[0.18em] md:tracking-[0.22em] text-white/35 mb-6 md:mb-8">{personalInfo.university}</p>
 
-                <p className="text-base md:text-lg text-white/70 max-w-3xl mb-12 leading-8">
+                <p className="text-sm sm:text-base md:text-lg text-white/70 max-w-3xl mb-8 md:mb-12 leading-7 md:leading-8">
                   {personalInfo.tagline}. I focus on clean interfaces, thoughtful interaction,
                   and practical engineering across AI/ML and modern web technology.
                 </p>
@@ -262,7 +266,7 @@ export default function App() {
               </div>
 
               {/* Social Links */}
-              <div className="mt-8 flex flex-wrap gap-4">
+              <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-3 md:gap-4">
                 <a
                   href={personalInfo.github}
                   target="_blank"
@@ -314,12 +318,12 @@ export default function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 px-4 md:px-6">
+      <section id="projects" className="py-20 px-4 md:px-6 scroll-mt-24">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12">
             <span className="section-eyebrow mb-5">Selected Work</span>
-            <h2 className="display-heading text-4xl md:text-6xl mb-4">Featured Projects</h2>
-            <p className="max-w-2xl text-white/60 text-lg">Concepts, experiments, and product builds shaped around performance, clarity, and practical impact.</p>
+            <h2 className="display-heading text-3xl md:text-6xl mb-4">Featured Projects</h2>
+            <p className="max-w-2xl text-white/60 text-base md:text-lg">Concepts, experiments, and product builds shaped around performance, clarity, and practical impact.</p>
           </div>
 
           <div className="grid grid-cols-12 gap-4 md:gap-6">
@@ -337,8 +341,8 @@ export default function App() {
                     <ExternalLink className="h-4 w-4 text-white/40" />
                   </div>
 
-                  <h3 className="text-2xl md:text-3xl mb-3">{project.title}</h3>
-                  <p className="text-white/60 mb-6 leading-7">{project.description}</p>
+                  <h3 className="text-xl md:text-3xl mb-3">{project.title}</h3>
+                  <p className="text-sm md:text-base text-white/60 mb-6 leading-6 md:leading-7">{project.description}</p>
                   
                   <div className="flex flex-wrap gap-2 mb-6">
                     {project.techStack.map((tech) => (
@@ -366,12 +370,12 @@ export default function App() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 px-4 md:px-6">
+      <section id="skills" className="py-20 px-4 md:px-6 scroll-mt-24">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12">
             <span className="section-eyebrow mb-5">Capabilities</span>
-            <h2 className="display-heading text-4xl md:text-6xl mb-4">Tech Stack</h2>
-            <p className="text-white/60 text-lg">A visual progression of how I grew from programming fundamentals to full-stack, cloud, and AI-focused tooling.</p>
+            <h2 className="display-heading text-3xl md:text-6xl mb-4">Tech Stack</h2>
+            <p className="text-white/60 text-base md:text-lg">A visual progression of how I grew from programming fundamentals to full-stack, cloud, and AI-focused tooling.</p>
           </div>
 
           <div className="grid grid-cols-12 gap-4 md:gap-6 mb-4 md:mb-6">
@@ -417,17 +421,17 @@ export default function App() {
       </section>
 
       {/* Career & Experience Section */}
-      <section id="experience" className="py-20 px-4 md:px-6">
+      <section id="experience" className="py-20 px-4 md:px-6 scroll-mt-24">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <span className="section-eyebrow mb-5">Growth Timeline</span>
-            <h2 className="display-heading text-4xl md:text-6xl mb-4">
-              My career &{' '}
+            <div className="text-center mb-12 md:mb-20">
+              <span className="section-eyebrow mb-5">Growth Timeline</span>
+              <h2 className="display-heading text-3xl md:text-6xl mb-4">
+                My career &{' '}
               <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
                 experience
               </span>
             </h2>
-            <p className="text-white/60 text-lg">A journey of continuous growth and learning</p>
+              <p className="text-white/60 text-base md:text-lg">A journey of continuous growth and learning</p>
           </div>
 
           <CareerTimeline items={careerPath} />
@@ -435,12 +439,12 @@ export default function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-4 md:px-6">
+      <section id="contact" className="py-20 px-4 md:px-6 scroll-mt-24">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-12 gap-4 md:gap-6">
             <BentoCard span={6} delay={0.2}>
               <span className="section-eyebrow mb-5">Contact</span>
-              <h2 className="display-heading text-4xl md:text-6xl mb-6">Let&apos;s Connect</h2>
+              <h2 className="display-heading text-3xl md:text-6xl mb-6">Let&apos;s Connect</h2>
               <p className="text-white/60 text-base md:text-lg mb-8 leading-8">
                 Have a project in mind or want to collaborate? I'm always open to 
                 discussing new opportunities and innovative ideas.
@@ -472,7 +476,7 @@ export default function App() {
 
             <BentoCard span={6} delay={0.4}>
               <span className="section-eyebrow mb-5">Start A Conversation</span>
-              <h3 className="display-heading text-3xl md:text-5xl mb-6">Send a Message</h3>
+              <h3 className="display-heading text-2xl md:text-5xl mb-6">Send a Message</h3>
               <ContactForm />
             </BentoCard>
           </div>
@@ -480,12 +484,12 @@ export default function App() {
       </section>
 
       {/* Quick Glance Section */}
-      <section className="py-24 px-4 md:px-6">
+      <section className="py-20 md:py-24 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-12 gap-10 items-center">
+          <div className="grid grid-cols-12 gap-8 md:gap-10 items-center">
             <div className="col-span-12 lg:col-span-6">
               <span className="section-eyebrow mb-5">A Quick Glance</span>
-              <h2 className="display-heading text-4xl md:text-6xl lg:text-7xl mb-8 max-w-3xl text-white">
+              <h2 className="display-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-8 max-w-3xl text-white">
                 Building the bridge between ideas and{' '}
                 <span className="bg-gradient-to-r from-violet-300 via-purple-300 to-sky-300 bg-clip-text text-transparent italic">
                   experiences
@@ -510,18 +514,27 @@ export default function App() {
               </p>
 
               <div className="mb-8 flex flex-wrap gap-3">
-                {quickGlanceHighlights.map((item, index) => (
-                  <motion.span
-                    key={item}
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.4 }}
-                    transition={{ duration: 0.45, delay: index * 0.1 }}
-                    className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs uppercase tracking-[0.18em] text-white/65"
-                  >
-                    {item}
-                  </motion.span>
-                ))}
+                {quickGlanceHighlights.map((item, index) =>
+                  isMobile ? (
+                    <span
+                      key={item}
+                      className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs uppercase tracking-[0.14em] text-white/65"
+                    >
+                      {item}
+                    </span>
+                  ) : (
+                    <motion.span
+                      key={item}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.4 }}
+                      transition={{ duration: 0.45, delay: index * 0.1 }}
+                      className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs uppercase tracking-[0.18em] text-white/65"
+                    >
+                      {item}
+                    </motion.span>
+                  )
+                )}
               </div>
 
               <div className="flex items-center gap-4">
@@ -551,53 +564,106 @@ export default function App() {
             </div>
 
             <div className="col-span-12 lg:col-span-6">
-              <div className="relative mx-auto h-[520px] max-w-[460px]">
+              <div className="relative mx-auto h-[400px] sm:h-[460px] md:h-[520px] max-w-[300px] sm:max-w-[380px] md:max-w-[460px] overflow-hidden">
                 <div className="absolute right-2 top-8 h-40 w-40 rounded-full bg-violet-500/18 blur-3xl" />
                 <div className="absolute left-0 top-28 h-36 w-36 rounded-full bg-sky-500/16 blur-3xl" />
 
-                {portraitFrames.map((portrait, index) => {
+                {isMobile ? (
+                  <div className="relative mx-auto mt-4 h-[320px] w-[240px] overflow-hidden rounded-[28px] border border-white/12 bg-[#0b0b11] shadow-[0_24px_80px_rgba(0,0,0,0.32)]">
+                    <ImageWithFallback
+                      src={portraitFrames[0].src}
+                      alt={portraitFrames[0].alt}
+                      className="h-full w-full object-cover object-top"
+                      loading="eager"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b11]/45 via-transparent to-transparent" />
+                    <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/10 bg-black/35 px-4 py-3 backdrop-blur-sm">
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-violet-200/80">Quick Glance</p>
+                      <p className="mt-2 text-sm text-white/78">Focused on responsive interfaces, practical engineering, and AI + web learning.</p>
+                    </div>
+                  </div>
+                ) : portraitFrames.map((portrait, index) => {
                   const relativeIndex = (index - activePortrait + portraitFrames.length) % portraitFrames.length;
                   const isFront = relativeIndex === 0;
                   const isRight = relativeIndex === 1;
 
-                  const animateState = isFront
-                    ? {
-                        x: '-50%',
-                        y: 0,
-                        top: 24,
-                        left: '50%',
-                        width: 270,
-                        height: 405,
-                        rotate: 0,
-                        scale: 1,
-                        opacity: 1,
-                        zIndex: 3,
-                      }
-                    : isRight
+                  const animateState = isMobile
+                    ? isFront
                       ? {
-                          x: 0,
+                          x: '-50%',
                           y: 0,
-                          top: 40,
-                          left: 228,
-                          width: 240,
-                          height: 360,
-                          rotate: -8,
-                          scale: 0.94,
-                          opacity: 0.64,
-                          zIndex: 1,
+                          top: 12,
+                          left: '50%',
+                          width: 210,
+                          height: 300,
+                          rotate: 0,
+                          scale: 1,
+                          opacity: 1,
+                          zIndex: 3,
                         }
-                      : {
-                          x: 0,
+                      : isRight
+                        ? {
+                            x: 0,
+                            y: 0,
+                            top: 52,
+                            left: 158,
+                            width: 132,
+                            height: 192,
+                            rotate: -7,
+                            scale: 0.94,
+                            opacity: 0.42,
+                            zIndex: 1,
+                          }
+                        : {
+                            x: 0,
+                            y: 0,
+                            top: 96,
+                            left: -2,
+                            width: 132,
+                            height: 192,
+                            rotate: 7,
+                            scale: 0.94,
+                            opacity: 0.48,
+                            zIndex: 2,
+                          }
+                    : isFront
+                      ? {
+                          x: '-50%',
                           y: 0,
-                          top: 96,
-                          left: 8,
-                          width: 220,
-                          height: 320,
-                          rotate: 6,
-                          scale: 0.94,
-                          opacity: 0.72,
-                          zIndex: 2,
-                        };
+                          top: 24,
+                          left: '50%',
+                          width: 270,
+                          height: 405,
+                          rotate: 0,
+                          scale: 1,
+                          opacity: 1,
+                          zIndex: 3,
+                        }
+                      : isRight
+                        ? {
+                            x: 0,
+                            y: 0,
+                            top: 40,
+                            left: 228,
+                            width: 240,
+                            height: 360,
+                            rotate: -8,
+                            scale: 0.94,
+                            opacity: 0.64,
+                            zIndex: 1,
+                          }
+                        : {
+                            x: 0,
+                            y: 0,
+                            top: 96,
+                            left: 8,
+                            width: 220,
+                            height: 320,
+                            rotate: 6,
+                            scale: 0.94,
+                            opacity: 0.72,
+                            zIndex: 2,
+                          };
 
                   return (
                     <motion.div
@@ -615,7 +681,7 @@ export default function App() {
                         ease: [0.16, 1, 0.3, 1],
                       }}
                       animate={animateState}
-                      whileHover={isFront ? { y: -8 } : undefined}
+                      whileHover={!isMobile && isFront ? { y: -8 } : undefined}
                       className={`absolute overflow-hidden rounded-[28px] border bg-[#0b0b11] ${
                         isFront
                           ? 'panel-glow border-white/12 shadow-[0_24px_90px_rgba(0,0,0,0.4)]'
@@ -645,7 +711,7 @@ export default function App() {
                   );
                 })}
 
-                <div className="pointer-events-none absolute inset-x-0 bottom-[92px] z-10 flex items-center justify-center">
+                {!isMobile ? <div className="pointer-events-none absolute inset-x-0 bottom-[52px] sm:bottom-[72px] md:bottom-[92px] z-10 flex items-center justify-center">
                   <div className="portrait-loader flex items-center gap-2 rounded-full border border-white/10 bg-black/35 px-3 py-2 backdrop-blur-md">
                     {portraitFrames.map((portrait, index) => (
                       <span
@@ -656,7 +722,7 @@ export default function App() {
                       />
                     ))}
                   </div>
-                </div>
+                </div> : null}
               </div>
             </div>
           </div>
@@ -664,14 +730,14 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-white/5">
+      <footer className="py-12 px-4 md:px-6 border-t border-white/5">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-white/40 text-sm">
               © 2026 Abhishek Singh. Crafted with precision and passion.
             </p>
             
-            <div className="flex items-center gap-4 text-white/40 text-sm">
+            <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white/40 text-sm">
               <span>Built with React + TypeScript + Motion</span>
               <span>•</span>
               <span>Deployed on Hostinger</span>

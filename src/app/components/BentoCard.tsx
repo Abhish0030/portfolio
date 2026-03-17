@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
+import { useIsMobile } from './ui/use-mobile';
 
 interface BentoCardProps {
   children: React.ReactNode;
@@ -11,8 +12,14 @@ interface BentoCardProps {
 export function BentoCard({ children, className = '', delay = 0, span = 4 }: BentoCardProps) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) {
+      setIsVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -31,7 +38,7 @@ export function BentoCard({ children, className = '', delay = 0, span = 4 }: Ben
         observer.unobserve(ref.current);
       }
     };
-  }, []);
+  }, [isMobile]);
 
   const spanClass = span === 12 ? 'col-span-12' : span === 8 ? 'col-span-12 lg:col-span-8' : 'col-span-12 md:col-span-6 lg:col-span-4';
 
@@ -40,15 +47,15 @@ export function BentoCard({ children, className = '', delay = 0, span = 4 }: Ben
     return (
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, y: 60 }}
+        initial={isMobile ? false : { opacity: 0, y: 60 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-        whileHover={{ y: -8, scale: 1.01 }}
+        whileHover={isMobile ? undefined : { y: -8, scale: 1.01 }}
         transition={{
-          duration: 0.8,
+          duration: isMobile ? 0 : 0.8,
           delay,
           ease: [0.16, 1, 0.3, 1],
         }}
-        className={`glass-card panel-glow hover-shift relative rounded-[28px] border border-white/10 p-6 backdrop-blur-[25px] overflow-hidden col-span-12 md:col-span-6 ${className}`}
+        className={`glass-card panel-glow hover-shift relative rounded-[24px] md:rounded-[28px] border border-white/10 p-4 md:p-6 overflow-hidden col-span-12 md:col-span-6 ${className}`}
       >
         <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
         <div className="pointer-events-none absolute -right-14 top-8 h-32 w-32 rounded-full bg-violet-500/10 blur-3xl" />
@@ -68,15 +75,15 @@ export function BentoCard({ children, className = '', delay = 0, span = 4 }: Ben
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 60 }}
+      initial={isMobile ? false : { opacity: 0, y: 60 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-      whileHover={{ y: -8, scale: 1.01 }}
+      whileHover={isMobile ? undefined : { y: -8, scale: 1.01 }}
       transition={{
-        duration: 0.8,
+        duration: isMobile ? 0 : 0.8,
         delay,
         ease: [0.16, 1, 0.3, 1],
       }}
-      className={`glass-card panel-glow hover-shift relative rounded-[28px] border border-white/10 p-6 backdrop-blur-[25px] overflow-hidden ${spanClass} ${className}`}
+      className={`glass-card panel-glow hover-shift relative rounded-[24px] md:rounded-[28px] border border-white/10 p-4 md:p-6 overflow-hidden ${spanClass} ${className}`}
     >
       <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
       <div className="pointer-events-none absolute -right-14 top-8 h-32 w-32 rounded-full bg-violet-500/10 blur-3xl" />
